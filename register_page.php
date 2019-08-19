@@ -13,7 +13,7 @@
 
 	<header>
 		<?php include("header.php");
-		include("mysqli_connect.php"); ?>
+		include("connect.php"); ?>
 	</header>
 
 
@@ -23,7 +23,7 @@
 				<div class="col-3" id="left">
 					<div class="row text-center" id="menu">
 						<div class="col-12">
-							<a href="#"><h4><i class="fa fa-home"></i>Trang Chủ</h4></a>
+							<a href="index.php"><h4><i class="fa fa-home"></i>Trang Chủ</h4></a>
 						</div>
 					</div>
 					<div class="qc">
@@ -38,7 +38,7 @@
 
 	        					<div class="col-12 text-center errors">
 	        						<?php
-	        							$conn = mysqli_connect('localhost','root','','demo');
+	        							$conn = mysqli_connect('localhost','root','','test');
 										if (isset($_POST['submit'])) {
 											if (empty($_POST['first_name']) or empty($_POST['last_name']) or empty($_POST['email']) or empty($_POST['password']) or empty($_POST['cfpassword'])) {
 												echo '<p style="color:red">Please fill all textbox</p>';
@@ -53,25 +53,93 @@
 												echo '<p style="color:red">Your two password did not match.</p>';
 												}else{
 													$hash_pass = password_hash($password, PASSWORD_DEFAULT);
-													$sql = "SELECT * FROM users WHERE email='$email'";
-													$result = mysqli_query($conn,$sql);
-													if (mysqli_num_rows($result)==0) {
-														$sql1 = "INSERT INTO users(first_name,last_name,email,password,registration_date)
-																VALUES('$first_name','$last_name','$email','$hash_pass',NOW())";
-															$test = mysqli_query($conn,$sql1);
-														if ($test) {
-															echo '<p style="color:green">Them thanh cong.</p>';
-															header("location: register_thanks.php");
-															mysqli_close();
-														}else{
-															echo '<p style="color:red">Khong thanh cong.</p>';
-														}
-														
-													}else{
-														echo '<p style="color:red">Email have already exist.</p>';
-													}
+
+
+													$sql = "SELECT userid FROM users WHERE email = '$email' and status = '0'";
+								            $result = mysqli_query($conn,$sql);
+								            if (mysqli_num_rows($result)>0) {
+								                echo '<div>Your email is already in the system but not yet verified.</div>';
+								            }else{
+								 
+								                // now, compose the content of the verification email, it will be sent to the email provided during sign up
+								                // generate verification code, acts as the "key"
+								                $verificationCode = md5(rand());
+								 
+								                // send the email verification
+								                $verificationLink = "http://localhost/BTL_CNWeb/activate.php?code=" . $verificationCode;
+								                
+
+
+								                $htmlStr = "";
+								                $htmlStr .= "Hi " . $email . ",<br /><br />";
+								 
+								                $htmlStr .= "Please click the button below to verify your subscription.<br /><br /><br />";
+								                $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY EMAIL</a><br /><br /><br />";
+								 
+								                $htmlStr .= "Kind regards,<br />";
+								                $htmlStr .= "<a href='https://BTL_CNWeb/index.php' target='_blank'>Test online</a><br />";
+								 
+								 
+								                $name = "Test online";
+								                $email_sender = "ntduong191098@gmail.com";
+								                $subject = "Verification Link | Test online | Subscription";
+								                $to = $email;
+
+								                $headers = "From: ntduong191098@gmail.com" . "\r\n" .
+								 
+								                $headers  = "MIME-Version: 1.0\r\n";
+								                $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+								                // $headers .= "From: {$name} <{$email_sender}> \n";
+								 
+								                $body = $htmlStr;
+								 
+								                // send email using the mail function, you can also use php mailer library if you want
+								                if( mail($to, $subject, $body, $headers) ){
+								 
+								                    // tell the user a verification email were sent
+								                    echo "<div id='successMessage'>A verification email were sent to <b>" . $email . "</b>, please open your email inbox and click the given link so you can login.</div>";
+								 
+								 
+								                    // save the email in the database
+								                    
+								 
+								                    //write query
+								                    $sql = "INSERT INTO
+								                                users
+								                            SET
+								                            	first_name = '$first_name',
+								                            	last_name = '$last_name',
+								                                email = '$email',
+								                                password = '$hash_pass',
+								                                registration_date = NOW(),
+								                                verification_code = '$verificationCode',
+								                                status = '0'";
+								                    $result = mysqli_query($conn,$sql);
+
+								 
+								                    // Execute the query
+								                    if($result){
+								                        // echo "<div>Unverified email was saved to the database.</div>";
+								                        
+								                    }else{
+								                        echo "<div>Unable to save your email to the database.";
+								                        //print_r($stmt->errorInfo());
+								                    }
+								 
+								                }else{
+								                    die("Sending failed.");
+								                }
+								            }
+
+													
 												}
 											}
+
+
+
+
+
+
 										}
 
 
@@ -111,7 +179,7 @@
 	                                					<input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
 	                            					</div>
 	                            					<div id="login-link" class="text-right">
-	                                					<a href="#" class="text-info">Login here</a>
+	                                					<a href="login_page.php" class="text-info">Login here</a>
 	                            					</div>
 	                        					</form>
 	                    					</div>

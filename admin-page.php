@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +13,9 @@
 <body>
 
 	<header>
-		<?php include("header.php"); ?>
+		<?php include("header-admin.php"); ?>
 	</header>
+	
 
 	
 	<main>
@@ -22,15 +24,11 @@
 				<div class="col-3" id="left">
 					<div class="row" id="menu">
 						<div class="col-12">
-							<a href="index.html"><h4><i class="fa fa-home"></i>Trang Chủ</h4></a>
+							<a href="index.php"><h4><i class="fa fa-home"></i>Trang Chủ</h4></a>
 						</div>
 						<hr class="light-100">
 						<div class="col-12">
-							<a href="index.html"><h4><i class="fas fa-bars"></i>Quản lý users</h4><span class="sr-only">(current)</span></a>
-						</div>
-						<hr class="light-100">
-						<div class="col-12">
-							<a href="index.html"><h4><i class="fas fa-file"></i>Quản lý bài thi</h4></a>
+							<a href="#" style="color: #FFFFFF;text-decoration: underline;"><h4><i class="fas fa-bars"></i>Quản lý </h4><span class="sr-only">(current)</span></a>
 						</div>
 					</div>
 					<div class="qc">
@@ -38,10 +36,19 @@
 					</div>
 				</div>
 				<div class="col-9">
-					<h3 class="text-center text-black"> Danh Sách Người Dùng</h3>
+					<h3 class="text-center text-black">Quản Lý Người Dùng</h3>
 					<?php
 						include("ql-users.php");
 					?>
+					<h3 class="text-center text-black">Quản Lý Bài Thi</h3>
+
+					<?php
+						include('ql-baithi.php');
+					?>
+					<h3 class="text-center text-black"> Danh Sách Kết Quả Thi</h3>
+					<?php
+						include("ql-kqthi.php");
+					 ?>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 <header>
 	    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
 	    	<div class="container">
-				  <a class="navbar-brand" href="index.php">
+				  <a class="navbar-brand" href="#">
 				  	<img src="images/logo.jpg">
 				  </a>
 				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,8 +17,6 @@
 					  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 					  <button class="btn my-2 my-sm-0" type="submit">Search</button>
 					</form>
-					<a href="login_page.php">(Đăng nhập</a>
-					<a href="register_page.php">/Đăng ký)</a>
 				  </div>
 			</div>
 		</nav>

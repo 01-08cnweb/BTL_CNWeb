@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script src="js/verify.js"></script> 
-	<title></title>
+	<title>Thi Online</title>
 </head>
 <body>
 
@@ -32,38 +32,22 @@
 				<div class="col-9">
 					<div class="row" id="login_page">
 						<div class="col-12">
-							<div id="login">
-	        					<h3 class="text-center text-black pt-5">Đăng nhập</h3>
+							<div id="login" style="margin-top: 50px">
+	        				
 	        					<div class="container">
 	            					<div id="login-row" class="row justify-content-center align-items-center">
 	                					<div id="login-column" class="col-md-6">
 	                    					<div id="login-box" class="col-md-12">
 	                    						<div class="col-12 text-center text-red">
 	                    							<?php
-	                    							require('connect.php');
-	                    							if (isset($_POST['submit'])) {
-	                    								$email = $_POST['email'];
-	                    								$password = $_POST['password'];
-	                    								$sql = "SELECT * FROM users WHERE email='$email' and password = '$password' limit 1";
-	                    								$query = mysqli_query($conn,$sql);
-	                    								$num = 	mysqli_num_rows($query);
-	                    								if ($num == 0) {
-	                    									echo "Khong dung !";
-	                    									# code...
-	                    								}else {
-	                    									$_SESSION['email'] = $email;
-	                    									header('location:index.html');
-	                    									# code...
-	                    								}
-	                    								# code...
-	                    							}
-	                    						?>
+	                    								require("process-login.php");
+	                    							?>
 	                    						</div>
 	                    						
 
 
 	                        					<form id="login-form" class="form" action="" method="POST">
-	                            					<h3 class="text-center text-black">Login</h3>
+	                            					<h3 class="text-center text-black">ĐăNG NHậP</h3>
                           							<div class="form-group">
 											    		<label for="exampleInputEmail1">Địa chỉ email:</label>
 											    		<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required
@@ -74,7 +58,7 @@
 									    				<label for="password">Mật khẩu:</label>
 									      				<input type="password" size="60px" class="form-control" id="password1" name="password" 
 										  					placeholder="Password" required
-	 														value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>" minlength="6" maxlength="20">
+	 														value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>" minlength="3" maxlength="20">
 										  				<span id='message'><pre>        (Mật khẩu dài từ 6-20 ký tự.)</pre></span>
 									  				</div>
 	                            					<div class="form-group">
